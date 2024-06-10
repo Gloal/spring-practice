@@ -8,7 +8,6 @@ POST http://localhost:8080/departments
 Content-Type: application/json
 
 {
-    "departmentName":"" ,
     "departmentAddress":"Italy",
     "departmentCode":"ITIT"
 }

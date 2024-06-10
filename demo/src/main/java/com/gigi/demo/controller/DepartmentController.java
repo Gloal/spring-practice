@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gigi.demo.entity.Department;
 import com.gigi.demo.service.DepartmentService;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 import java.util.List;
 
@@ -18,14 +18,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
 
-
-
 @RestController
 public class DepartmentController {
 
     @Autowired
     DepartmentService departmentService;
-
 
     @GetMapping("/")
     public List<Department> getAllDepartments() {
@@ -57,6 +54,4 @@ public class DepartmentController {
          departmentService.deleteDepartment(id);
          return "department deleted "+id;
     }
-
-    
 }

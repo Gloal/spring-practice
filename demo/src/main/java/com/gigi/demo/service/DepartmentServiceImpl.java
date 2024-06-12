@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.gigi.demo.repository.DepartmentRepository;
 import com.gigi.demo.entity.Department;
+import com.gigi.demo.error.DepartmentNotFoundException;
 
  
 @Service
@@ -24,8 +25,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department getDepartment(Long id) {
-        return departmentRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+    public Department getDepartmentById(Long id) throws DepartmentNotFoundException {
+        Optional<Department> department = departmentRepository.findById(id);
+
+        if (!department.isPresent()){
+            throw new DepartmentNotFoundException("Department Not Found");
+        }
+        return department.get();
     }
 
     @Override
@@ -63,8 +69,14 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department getDepartmentByName(String departmentName) {
-        return departmentRepository.findByDepartmentNameIgnoreCase(departmentName);
+    public Department getDepartmentByName(String departmentName) throws DepartmentNotFoundException{
+        Optional<Department> department = departmentRepository.findByDepartmentNameIgnoreCase(departmentName);
+
+        if(!department.isPresent()){
+            throw new DepartmentNotFoundException();
+        }
+
+        return department.get();
     }
 
 }

@@ -42,8 +42,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         ErrorMessage message = new ErrorMessage(HttpStatusCode.valueOf(404) , ex.getMessage());
 
 
-        return new ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(message);
+        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
 
 }

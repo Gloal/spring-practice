@@ -3,6 +3,7 @@ package com.gigi.demo.controller;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,8 @@ public class DepartmentControllerIntergrationTest {
     }
 
     @Test
-    void returnsDepartmentNotFoundExceptionWhenIdIsValid() throws Exception{
+    @DisplayName("Get DepartmentNotFoundException when Invalid Long Id")
+    void returnsDepartmentNotFoundExceptionWhenIdIsInvalid() throws Exception{
         when(departmentService.getDepartmentById(2L)).thenThrow(
             new DepartmentNotFoundException("Department not found"));
 

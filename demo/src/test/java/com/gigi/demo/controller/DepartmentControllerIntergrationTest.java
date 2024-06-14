@@ -2,16 +2,21 @@ package com.gigi.demo.controller;
 
 import static org.mockito.Mockito.when;
 
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.gigi.demo.error.DepartmentNotFoundException;
 
@@ -19,9 +24,10 @@ import com.gigi.demo.error.DepartmentNotFoundException;
 import com.gigi.demo.entity.Department;
 import com.gigi.demo.service.DepartmentService;
 
+@TestConfiguration
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class DepartmentControllerTest {
+public class DepartmentControllerIntergrationTest {
 
     @MockBean
     DepartmentService departmentService;
@@ -48,11 +54,13 @@ public class DepartmentControllerTest {
     }
 
     @Test
-    void testGetDepartmentById() throws DepartmentNotFoundException{
+    void testGetDepartmentById() throws Exception{
         when(departmentService.getDepartmentById(1L)).thenReturn(
             new Department(1L,"Info Tech", "Canada", "IT-09"));
 
-            mockMvc.perform(get("/departments/1")).andExpect(status().isOK());
+            mockMvc.perform(get("/departments/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test

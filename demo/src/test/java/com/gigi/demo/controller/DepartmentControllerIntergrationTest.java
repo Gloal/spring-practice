@@ -19,8 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.gigi.demo.error.DepartmentNotFoundException;
-
-
+import com.gigi.demo.error.RestResponseEntityExceptionHandler;
 import com.gigi.demo.entity.Department;
 import com.gigi.demo.service.DepartmentService;
 
@@ -39,7 +38,9 @@ public class DepartmentControllerIntergrationTest {
 
     @BeforeEach
         void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(departmentController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(departmentController)
+                        .setControllerAdvice(new RestResponseEntityExceptionHandler())
+                        .build();
     }
 
 
@@ -54,7 +55,7 @@ public class DepartmentControllerIntergrationTest {
     }
 
     @Test
-    void testGetDepartmentById() throws Exception{
+    void returnsDepartmentWhenIdIsValid() throws Exception{
         when(departmentService.getDepartmentById(1L)).thenReturn(
             new Department(1L,"Info Tech", "Canada", "IT-09"));
 
@@ -63,6 +64,15 @@ public class DepartmentControllerIntergrationTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void returnsDepartmentNotFoundExceptionWhenIdIsValid() throws Exception{
+        when(departmentService.getDepartmentById(2L)).thenThrow(
+            new DepartmentNotFoundException("Department not found"));
+
+            mockMvc.perform(get("/departments/2")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
     @Test
     void testGetDepartmentByName() {
 

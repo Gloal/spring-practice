@@ -25,7 +25,7 @@ import com.gigi.demo.entity.Department;
 import com.gigi.demo.service.DepartmentService;
 
 @TestConfiguration
-@ExtendWith(SpringExtension.class)
+//@ExtendWith(SpringExtension.class) - Not needed
 @SpringBootTest
 public class DepartmentControllerIntergrationTest {
 

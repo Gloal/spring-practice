@@ -18,7 +18,4 @@ public class DepartmentNotFoundException extends Exception{
         super(cause);
     }
 
-    protected DepartmentNotFoundException(String message, Throwable cause){
-        super(message, cause);
-    }
 }
